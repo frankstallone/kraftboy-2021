@@ -7,6 +7,9 @@ module.exports = {
       'serif': ['Merriweather', 'serif'],
       'sans': ['Open Sans', 'sans-serif'],
     },
+    letterSpacing: {
+      tightest: '-.075em',
+    },
     extend: {},
   },
   variants: {
