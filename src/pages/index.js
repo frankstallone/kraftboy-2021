@@ -4,7 +4,11 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 // markup
 const IndexPage = () => {
   return (
-    <PayPalScriptProvider options={{ "client-id": "test" }}>
+    <PayPalScriptProvider
+      options={{
+        "client-id": `${process.env.PAYPAL_CLIENT_ID}`,
+      }}
+    >
       <main className="flex flex-col flex-1">
         <div className="min-h-screen py-24 px-4 relative overflow-hidden">
           <title>kraftboy products</title>
