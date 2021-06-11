@@ -2,6 +2,8 @@ import * as React from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FUNDING } from "@paypal/sdk-constants/dist/module";
 
+const baseOrderAmount = "34.99";
+
 // markup
 const IndexPage = () => {
   return (
@@ -51,13 +53,57 @@ const IndexPage = () => {
         <div className="py-24 px-4">
           <h2>Order</h2>
           <p>
-            The Compadre is affordable, lightweight and priced just right at
-            $49.99 (shipping included) to anywhere in the United States!
-            Interested in international shipping? <a href="#">Contact us!</a>
+            The Compadre is affordable, lightweight and priced just right at $
+            {baseOrderAmount} (shipping included) to anywhere in the United
+            States! Interested in international shipping?{" "}
+            <a href="#">Contact us!</a>
           </p>
           <PayPalButtons
             style={{ layout: "horizontal" }}
             fundingSource={FUNDING.PAYPAL}
+            onShippingChange={(data, actions) => {
+              if (data.shipping_address.country_code !== "US") {
+                console.log("International: ", data);
+                // Patch the shipping amount
+                const shippingAmount = "20.00";
+                return actions.order.patch([
+                  {
+                    op: "replace",
+                    path: "/purchase_units/@reference_id=='default'/amount",
+                    value: {
+                      currency_code: "USD",
+                      value: (
+                        parseFloat(baseOrderAmount) + parseFloat(shippingAmount)
+                      ).toFixed(2),
+                      breakdown: {
+                        item_total: {
+                          currency_code: "USD",
+                          value: baseOrderAmount,
+                        },
+                        shipping: {
+                          currency_code: "USD",
+                          value: shippingAmount,
+                        },
+                      },
+                    },
+                  },
+                ]);
+              }
+              console.log("US");
+
+              return actions.resolve();
+            }}
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: baseOrderAmount,
+                    },
+                  },
+                ],
+              });
+            }}
           />
         </div>
       </main>
