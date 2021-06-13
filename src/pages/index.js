@@ -3,6 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FUNDING } from "@paypal/sdk-constants/dist/module";
 
 const baseOrderAmount = "34.99";
+const shippingAmount = "20.00";
 
 // markup
 const IndexPage = () => {
@@ -12,51 +13,49 @@ const IndexPage = () => {
         "client-id": `${process.env.PAYPAL_CLIENT_ID}`,
       }}
     >
-      <header className="flex flex-col flex-1">
+      <header className="max-w-2xl mx-auto flex flex-col flex-1">
         <div className="py-24 px-4 relative overflow-hidden">
           <title>kraftboy products</title>
           <h1 className="font-serif">kraftboy products - made in america</h1>
-          <h2 className="font-serif text-9xl font-extrabold tracking-tightest">
+          <h2 className="font-serif text-8xl md:text-9xl font-extrabold tracking-tightest">
             Compadre
           </h2>
           <h3>The Travel Guitar Stabilizer</h3>
         </div>
       </header>
 
-      <main className="flex flex-col flex-1 prose">
-        <div className="py-24 px-4">
-          <h2>Features</h2>
-          <ul>
-            <li>Lightweight</li>
-            <li>Durable</li>
-            <li>Waterproof</li>
-            <li>Functional</li>
-            <li>Attractive</li>
-            <li>Affordable</li>
-          </ul>
+      <main className="max-w-2xl mx-auto flex flex-col flex-1 prose">
+        <div className="py-4 px-4 flex flex-row space-x-10 md:space-x-20">
+          <div>
+            <h2>Features</h2>
+            <ul>
+              <li>Lightweight</li>
+              <li>Durable</li>
+              <li>Waterproof</li>
+              <li>Functional</li>
+              <li>Attractive</li>
+              <li>Affordable</li>
+            </ul>
+          </div>
+          <div>
+            <h2>What's up Compadre?</h2>
+            <p>
+              Looking for a fun, innovative way to store and play your Martin
+              Backpacker travel guitar? The Compadre Travel Guitar Stabilizer is
+              a simple, lightweight device that allows you to play your guitar
+              without a strap hanging over your shoulder and gives you a fun new
+              way to store it. Best of all, the Compadre attaches to any Martin
+              Backpacker in seconds and weighs just six ounces! Enjoy the
+              world’s most popular travel guitar now more than ever.
+            </p>
+          </div>
         </div>
-        <div className="py-24 px-4">
-          <h2>What's up Compadre?</h2>
-          <p>
-            Looking for a fun, innovative way to store and play your Martin
-            Backpacker travel guitar? The Compadre Travel Guitar Stabilizer is a
-            simple, lightweight device that allows you to play your guitar
-            without a strap hanging over your shoulder and gives you a fun new
-            way to store it. Best of all, the Compadre attaches to any Martin
-            Backpacker in seconds and weighs just six ounces! Enjoy the world’s
-            most popular travel guitar now more than ever.
-          </p>
-        </div>
-        <div className="py-24 px-4">
-          <h2>Testimonials</h2>
-        </div>
-        <div className="py-24 px-4">
+        <div className="py-4 px-4">
           <h2>Order</h2>
           <p>
             The Compadre is affordable, lightweight and priced just right at $
-            {baseOrderAmount} (shipping included) to anywhere in the United
-            States! Interested in international shipping?{" "}
-            <a href="#">Contact us!</a>
+            {baseOrderAmount} shipped anywhere in the United States!
+            International shipping ${shippingAmount}.
           </p>
           <PayPalButtons
             style={{ layout: "horizontal" }}
@@ -65,7 +64,6 @@ const IndexPage = () => {
               if (data.shipping_address.country_code !== "US") {
                 console.log("International: ", data);
                 // Patch the shipping amount
-                const shippingAmount = "20.00";
                 return actions.order.patch([
                   {
                     op: "replace",
@@ -108,7 +106,7 @@ const IndexPage = () => {
         </div>
       </main>
 
-      <footer className="flex flex-col flex-1 prose">
+      <footer className="max-w-2xl mx-auto py-4 px-4 flex flex-col flex-1 prose">
         <p>
           We’d love to hear from you if you would like to buy in bulk or have
           any questions or comments. Send us an email, or find us on{" "}
@@ -119,11 +117,11 @@ const IndexPage = () => {
         </p>
         <p>
           <small>
-            Copyright 2011 - 2021 © Kraftboy. "The Compadre Travel Guitar
-            Stabilizer" is patent-pending. Web design by Hoverboard Media. "The
-            Compadre Travel Guitar Stabilizer", the photos, videos, media and
-            Kraftboy are in no way affiliated with Martin Guitars, unless your
-            Chris Martin then let's talk!
+            Copyright 2011 - {new Date().getFullYear()} © Kraftboy. "The
+            Compadre Travel Guitar Stabilizer" is patent-pending. Web design by
+            Hoverboard Media. "The Compadre Travel Guitar Stabilizer", the
+            photos, videos, media and Kraftboy are in no way affiliated with
+            Martin Guitars, unless your Chris Martin then let's talk!
           </small>
         </p>
       </footer>
